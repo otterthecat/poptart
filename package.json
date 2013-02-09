@@ -1,0 +1,32 @@
+{
+  "name": "poptart",
+  "title": "Poptart",
+  "description": "A history popState Controller",
+  "version": "0.1.0",
+  "homepage": "https://github.com/servo/poptart",
+  "author": {
+    "name": "Otter",
+    "email": "otc@otterthecat.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/servo/poptart.git"
+  },
+  "bugs": {
+    "url": "https://github.com/servo/poptart/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/servo/poptart/blob/master/LICENSE-MIT"
+    },
+    {
+      "type": "GPL",
+      "url": "https://github.com/servo/poptart/blob/master/LICENSE-GPL"
+    }
+  ],
+  "dependencies": {
+    "jquery": "~1.5"
+  },
+  "keywords": []
+}

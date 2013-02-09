@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+		<title>poptart.js</title>
+	</head>
+	<body>
+		
+
+		<ul>
+			<li>
+				<a href="page/one" title="meh one">one</a>
+			</li>
+			<li>
+				<a href="page/two" title="meh one">two</a>
+			</li>
+			<li>
+				<a href="page/three" title="meh one">three</a>
+			</li>
+			<li>
+				<a href="page/four" title="meh one">four</a>
+			</li>
+			<li>
+				<a href="page/five" title="meh one">five</a>
+			</li>
+		</ul>
+
+
+		<script type="text/javascript" src="src/poptart.js"></script>
+
+		<script>
+			poptart.init();
+
+			poptart.set('/page/three', function(){
+
+				console.log('i am page 3');
+			});
+
+			poptart.set('/page/three', function(){
+
+				var b =document.getElementsByTagName('body')[0];
+				b.appendChild(document.createTextNode('<p>hello</p>'));
+			});
+		</script>
+	</body>
+</html>
