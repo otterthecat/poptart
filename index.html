@@ -11,34 +11,38 @@
 				<a href="page/one" title="meh one">one</a>
 			</li>
 			<li>
-				<a href="page/two" title="meh one">two</a>
+				<a href="page/two" title="meh two">two</a>
 			</li>
 			<li>
-				<a href="page/three" title="meh one">three</a>
+				<a href="page/three" title="meh three">three</a>
 			</li>
 			<li>
-				<a href="page/four" title="meh one">four</a>
+				<a href="page/four" title="meh four">four</a>
 			</li>
 			<li>
-				<a href="page/five" title="meh one">five</a>
+				<a href="page/five" title="meh five">five</a>
 			</li>
 		</ul>
 
+		<div id="display"></div>
 
 		<script type="text/javascript" src="src/poptart.js"></script>
 
 		<script>
 			poptart.init();
 
-			poptart.set('/page/three', function(){
+			poptart.set('/page/three', function(data){
 
 				console.log('i am page 3');
+				var b =document.getElementById('display');
+				b.innerHTML = '<p>' + data.index + '</p>';
 			});
 
-			poptart.set('/page/three', function(){
+			poptart.set('/page/one', function(data){
 
-				var b =document.getElementsByTagName('body')[0];
-				b.appendChild(document.createTextNode('<p>hello</p>'));
+				console.log('page one');
+				var b =document.getElementById('display');
+				b.innerHTML = '<p>' + data.title + '</p>';
 			});
 		</script>
 	</body>

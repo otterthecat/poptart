@@ -9,7 +9,7 @@
 (function(){
 
   var _callbacks = {};
-  var _base_url = "";
+  var _base_url = null;
 
   /* set popstate event
   ---------------------- */
@@ -19,7 +19,8 @@
 
       _each(_callbacks[event.state.page], function(){
 
-        this();
+        // TODO - the scoping here may be a bit confusing...
+        this(event.state);
       });
     }
   };
@@ -38,16 +39,21 @@
     }
   };
 
+
+  // used to parse which part of the uri has be updated
   var _get_new_state_url = function(href_str){
 
     var href = href_str.replace(_base_url, '');
     return _base_url + href;
   };
 
+
+  // wrapper method to get dom element list by tag
   var _getTag = function(str){
 
     return document.getElementsByTagName(str);
   };
+
 
   // helper function to loop through arrays
   var _each = function(obj_array, fn){
@@ -58,6 +64,7 @@
     }
   };
 
+
   // add a function to a callback object
   var _register_callback = function(name_str, fn){
 
@@ -67,8 +74,8 @@
     }
 
     _callbacks[name_str].push(fn);
-
   };
+
 
   // wrapper for accessing history's pushState method
   var _do_push_state = function(data, title, url){
@@ -76,9 +83,10 @@
     history.pushState(data, title, url);
   };
 
+
   // check if any functions are assigned to a specfic
   // property of _callbacks, call them (if exists)
-  var _do_callbacks = function(url_str){
+  var _do_callbacks = function(url_str, data){
 
     if(!_callbacks.hasOwnProperty(url_str)){
 
@@ -87,9 +95,46 @@
 
     _each(_callbacks[url_str], function(){
 
-      this();
+      this(data);
     });
   };
+
+
+  // create & return ajax object, second argument
+  // is object to be passed into callbacks
+  var _get_ajax = function(url_str, push_object){
+
+   var _ajax = new Object;
+
+    if (window.XMLHttpRequest) {
+
+        _ajax = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+
+        _ajax = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    _ajax.open('post', url_str, true);
+    _ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+
+    _ajax.onreadystatechange = function(){
+
+      if(_ajax.readyState === 4 ){
+
+        if(_ajax.status === 200){
+
+          _do_callbacks(push_object.page, push_object);
+        } else {
+
+          console.log("error getting ajax");
+        }
+      };
+    };
+
+    return _ajax.send();
+  };
+
 
   // define poptart object
   var Poptart = function(){};
@@ -100,8 +145,7 @@
 
       _set_base_url();
 
-      var _links = _getTag('a');
-      _each(_links, function(i){
+      _each(_getTag('a'), function(i){
 
         var state = this.href;
         this.href = _get_new_state_url(state);
@@ -110,9 +154,16 @@
 
           e.preventDefault();
 
-          _do_push_state({page: state, index: i}, this.title, this.href);
+          var push_obj = {
+            page: state,
+            index: i,
+            title: this.title,
+            href: this.href
+          }
 
-          _do_callbacks(state);
+          _do_push_state(push_obj, push_obj.title, push_obj.href);
+
+          var ajx = _get_ajax(push_obj.href, push_obj);
         };
       });
     },
