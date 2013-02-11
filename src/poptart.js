@@ -104,7 +104,7 @@
   // is object to be passed into callbacks
   var _get_ajax = function(url_str, push_object){
 
-   var _ajax = new Object;
+   var _ajax = {};
 
     if (window.XMLHttpRequest) {
 
@@ -118,18 +118,21 @@
     _ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 
-    _ajax.onreadystatechange = function(){
+    _ajax.onreadystatechange = function(response){
 
       if(_ajax.readyState === 4 ){
 
-        if(_ajax.status === 200){
+        if(_ajax.status === 200 || _ajax.status === 301){
 
+          // TODO - would like to clean this up
+          push_object.response = _ajax.response;
+          _do_push_state(push_object, push_object.title, push_object.href);
           _do_callbacks(push_object.page, push_object);
         } else {
 
-          console.log("error getting ajax");
+          window.console.log("error getting ajax");
         }
-      };
+      }
     };
 
     return _ajax.send();
@@ -145,6 +148,15 @@
 
       _set_base_url();
 
+      // set initial page history state
+      _do_push_state({
+        page: 'poptart_base',
+        index: null,
+        title: 'default title',
+        href: _base_url,
+        response: null
+      }, 'default', _base_url);
+
       _each(_getTag('a'), function(i){
 
         var state = this.href;
@@ -154,14 +166,17 @@
 
           e.preventDefault();
 
+          // update state to represent
+          // link's page
           var push_obj = {
             page: state,
             index: i,
             title: this.title,
-            href: this.href
-          }
+            href: this.href,
+            response: null
+          };
 
-          _do_push_state(push_obj, push_obj.title, push_obj.href);
+         // _do_push_state(push_obj, push_obj.title, push_obj.href);
 
           var ajx = _get_ajax(push_obj.href, push_obj);
         };
@@ -171,7 +186,14 @@
     set: function(uri, fn){
 
       // TODO - this is far too hardcoded
-      _register_callback(_get_new_state_url(uri.replace('/', '')), fn);
+      _register_callback(_get_new_state_url(uri), fn);
+    },
+
+    // used to set history state captured on page load
+    // TODO decide on a more accurate name?
+    base: function(fn){
+
+      _register_callback('poptart_base', fn);
     },
 
     getCallbacks: function(name_str){

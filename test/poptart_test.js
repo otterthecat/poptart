@@ -25,32 +25,16 @@
 
 test("poptart push state", 1, function(){
 
+  stop();
   window.poptart.init();
+  window.poptart.set('ajax/some/link', function(response){
 
-  document.getElementById('test_link').click();
-
-  var uri = window.location.pathname;
-  strictEqual(uri.substr(-10), '/some/link', 'push state correctly set');
-
-  history.go(-1);
-});
-
-
-test("poptart triggers function on push state", 1, function(){
-
-
-  var _test_boolean = false;
-
-  window.poptart.init();
-  window.poptart.set("/new/test", function(x){
-
-    _test_boolean = true;
+    strictEqual(window.location.pathname.substr(-14), 'ajax/some/link', 'push state correctly set');
+    history.go(-1);
+    start();
   });
 
-  document.getElementById('boolean_link').click();
-  strictEqual(_test_boolean, true, "content updated via push state");
-
-  history.go(-1);
+  document.getElementById('ajax_some_link').click();
 });
 
 
@@ -58,4 +42,20 @@ test("poptart set callbacks", 1, function(){
 
     window.poptart.init();
     ok(window.poptart.getCallbacks('item'), 'successfully pulled callbacks');
+});
+
+
+test("poptart ajax", 2, function(){
+
+  stop();
+  window.poptart.init();
+  window.poptart.set('ajax', function(response){
+
+    strictEqual(typeof response, 'object', 'ajax response recieved');
+    strictEqual(typeof response.page, 'string', 'ajax response contains state object');
+    history.go('-1');
+    start();
+  });
+
+  document.getElementById('ajax_link').click();
 });
