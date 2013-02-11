@@ -176,8 +176,6 @@
             response: null
           };
 
-         // _do_push_state(push_obj, push_obj.title, push_obj.href);
-
           var ajx = _get_ajax(push_obj.href, push_obj);
         };
       });
@@ -185,8 +183,15 @@
 
     set: function(uri, fn){
 
-      // TODO - this is far too hardcoded
-      _register_callback(_get_new_state_url(uri), fn);
+      // remove slast if it starts the string
+      // TODO - this is far too hardcoded - use regex
+      if(uri.indexOf('/') !== 0){
+     
+        _register_callback(_get_new_state_url(uri), fn);
+      } else {
+
+        _register_callback(_get_new_state_url(uri.replace('/', '')), fn);
+      }
     },
 
     // used to set history state captured on page load

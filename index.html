@@ -11,13 +11,7 @@
 				<a href="page/one" title="meh one">one</a>
 			</li>
 			<li>
-				<a href="page/two" title="meh two">two</a>
-			</li>
-			<li>
 				<a href="page/three" title="meh three">three</a>
-			</li>
-			<li>
-				<a href="page/four" title="meh four">four</a>
 			</li>
 			<li>
 				<a href="page/five" title="meh five">five</a>
@@ -49,6 +43,13 @@
 				console.log('page one');
 				var b =document.getElementById('display');
 				b.innerHTML = '<p>' + data.title + '</p>';
+			});
+
+			poptart.set('/page/five', function(data){
+
+				console.log('page 5');
+				var b = document.getElementById('display');
+				b.innerHTML = 'Link to page 5 has index of '+data.index;
 			});
 		</script>
 	</body>

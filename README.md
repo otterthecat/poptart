@@ -2,37 +2,14 @@
 
 A history popState Controller
 
-## Getting Started
-Download the [production version][min] or the [development version][max].
+## Usage
+Use Poptart's .set() method. First argument is he url of an existing anchor tag - this will be used as the identifier.
+Second argument is the function you want called when the linke is cliked, and you may pass Poptart's data object (which contains the information contained when pushing the history state, as well as ajax response)  into this function like so:
 
-[min]: https://raw.github.com/servo/poptart/master/dist/poptart.min.js
-[max]: https://raw.github.com/servo/poptart/master/dist/poptart.js
+	poptart.set('/my/link', function(data){
 
-In your web page:
-
-```html
-<script src="jquery.js"></script>
-<script src="dist/poptart.min.js"></script>
-<script>
-jQuery(function($) {
-  $.awesome(); // "awesome"
-});
-</script>
-```
-
-## Documentation
-_(Coming soon)_
-
-## Examples
-_(Coming soon)_
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/cowboy/grunt).
-
-_Also, please don't edit files in the "dist" subdirectory as they are generated via grunt. You'll find source code in the "src" subdirectory!_
-
-## Release History
-_(Nothing yet)_
+		document.getElementById('myTarget').innerHTML = data.response;
+	});
 
 ## License
 Copyright (c) 2013 Otter  
