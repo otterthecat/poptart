@@ -8,6 +8,8 @@
 
 (function(){
 
+    "use strict";
+
   var _callbacks = {};
   var _base_url = null;
 
@@ -111,7 +113,7 @@
         _ajax = new XMLHttpRequest();
     } else if (window.ActiveXObject) {
 
-        _ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        _ajax = new window.ActiveXObject("Microsoft.XMLHTTP");
     }
 
     _ajax.open('post', url_str, true);
