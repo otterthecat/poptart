@@ -27,9 +27,9 @@ test("poptart push state", 1, function(){
 
   stop();
   window.poptart.init();
-  window.poptart.set('ajax/some/link', function(response){
+  window.poptart.set('ajax/some/link/index.html', function(response){
 
-    strictEqual(window.location.pathname.substr(-14), 'ajax/some/link', 'push state correctly set');
+    strictEqual(window.location.pathname.substr(-25), 'ajax/some/link/index.html', 'push state correctly set');
     history.go(-1);
     start();
   });

@@ -90,13 +90,12 @@
   // property of _callbacks, call them (if exists)
   var _do_callbacks = function(url_str, data){
 
-    if(!_callbacks.hasOwnProperty(url_str)){
 
+    if(!_callbacks.hasOwnProperty(url_str)){
       return false;
     }
 
     _each(_callbacks[url_str], function(){
-
       this(data);
     });
   };
@@ -118,6 +117,7 @@
 
     _ajax.open('post', url_str, true);
     _ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    _ajax.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 
     _ajax.onreadystatechange = function(response){
