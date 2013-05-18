@@ -21,7 +21,7 @@
       raises(block, [expected], [message])
   */
 
-
+jQuery('document').ready(function(){
 
 test("poptart push state", 1, function(){
 
@@ -49,7 +49,7 @@ test("poptart ajax", 2, function(){
 
   stop();
   window.poptart.init();
-  window.poptart.set('ajax', function(response){
+  window.poptart.set('ajax/index.html', function(response){
 
     strictEqual(typeof response, 'object', 'ajax response recieved');
     strictEqual(typeof response.page, 'string', 'ajax response contains state object');
@@ -58,4 +58,6 @@ test("poptart ajax", 2, function(){
   });
 
   document.getElementById('ajax_link').click();
+});
+
 });
