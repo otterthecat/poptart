@@ -27,27 +27,23 @@
 
 			poptart.base(function(data){
 
-				console.log("base function");
 				document.getElementById('display').innerHTML = '';
 			});
 
-			poptart.set('/page/three', function(data){
+			poptart.set('/page/three/index.html', function(data){
 
-				console.log('i am page 3');
 				var b =document.getElementById('display');
 				b.innerHTML = '<p>' + data.response + '</p>';
 			});
 
-			poptart.set('/page/one', function(data){
+			poptart.set('/page/one/index.html', function(data){
 
-				console.log('page one');
 				var b =document.getElementById('display');
 				b.innerHTML = '<p>' + data.title + '</p>';
 			});
 
-			poptart.set('/page/five', function(data){
+			poptart.set('/page/five/index.html', function(data){
 
-				console.log('page 5');
 				var b = document.getElementById('display');
 				b.innerHTML = 'Link to page 5 has index of '+data.index;
 			});
